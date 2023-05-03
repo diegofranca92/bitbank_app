@@ -1,3 +1,4 @@
+import 'package:bitbank_app/mostrar_detalhes.dart';
 import 'package:bitbank_app/repositories/moeda_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -35,6 +36,11 @@ class _MoedasPageState extends State<MoedasPage> {
     }
   }
 
+  mostrarDetalhes(Moeda moeda) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (_) => MoedaDetalhesPage(moeda: moeda)));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,6 +71,7 @@ class _MoedasPageState extends State<MoedasPage> {
                       : selecionadas.add(tabela[moeda]);
                 });
               },
+              onTap: () => mostrarDetalhes(tabela[moeda]),
             );
           },
           separatorBuilder: (_, __) => const Divider(),
