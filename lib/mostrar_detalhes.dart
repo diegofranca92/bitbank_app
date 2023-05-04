@@ -75,16 +75,17 @@ class _MoedaDetalhesPageState extends State<MoedaDetalhesPage> {
               ? SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: Container(
-                    margin: EdgeInsets.only(bottom: 24),
-                    padding: EdgeInsets.all(12),
+                    margin: const EdgeInsets.only(bottom: 24),
+                    padding: const EdgeInsets.all(12),
                     alignment: Alignment.center,
                     decoration:
                         BoxDecoration(color: Colors.teal.withOpacity(0.05)),
                     child: Text('$qtd ${widget.moeda.sigla}',
-                        style: TextStyle(color: Colors.teal, fontSize: 20)),
+                        style:
+                            const TextStyle(color: Colors.teal, fontSize: 20)),
                   ))
               : Container(
-                  margin: EdgeInsets.only(bottom: 24),
+                  margin: const EdgeInsets.only(bottom: 24),
                 ),
           Form(
               key: _formKey,
@@ -121,7 +122,7 @@ class _MoedaDetalhesPageState extends State<MoedaDetalhesPage> {
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.check),
+                    Icon(Icons.add_shopping_cart_outlined),
                     Padding(
                       padding: EdgeInsets.all(16),
                       child: Text(
