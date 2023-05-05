@@ -1,9 +1,13 @@
 import 'package:bitbank_app/home_page.dart';
-import 'package:bitbank_app/moedas_page.dart';
+import 'package:bitbank_app/repositories/favoritas_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+    child: const MyApp(),
+    create: (context) => FavoritasRepository(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
