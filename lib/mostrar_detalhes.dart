@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:bitbank_app/widgets/block_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -22,6 +23,7 @@ class _MoedaDetalhesPageState extends State<MoedaDetalhesPage> {
   final _formKey = GlobalKey<FormState>();
   final _valor = TextEditingController();
   double qtd = 0;
+  bool btnEnabled = false;
 
   submitComprar() {
     if (_formKey.currentState!.validate()) {
@@ -101,6 +103,7 @@ class _MoedaDetalhesPageState extends State<MoedaDetalhesPage> {
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 onChanged: (value) {
                   setState(() {
+                    btnEnabled = value.isNotEmpty;
                     qtd = value.isEmpty
                         ? 0
                         : double.parse(value) / widget.moeda.preco;
@@ -116,23 +119,11 @@ class _MoedaDetalhesPageState extends State<MoedaDetalhesPage> {
                 },
               )),
           Container(
-            margin: const EdgeInsets.only(top: 24),
-            child: ElevatedButton(
-                onPressed: () => submitComprar(),
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.add_shopping_cart_outlined),
-                    Padding(
-                      padding: EdgeInsets.all(16),
-                      child: Text(
-                        'Comprar',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    )
-                  ],
-                )),
-          )
+              margin: const EdgeInsets.only(top: 24),
+              child: BlockButton(
+                  onPressed: btnEnabled ? () => submitComprar() : null,
+                  icon: Icons.add_shopping_cart_outlined,
+                  label: 'Comprar'))
         ]),
       ),
     );
