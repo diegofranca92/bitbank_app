@@ -27,6 +27,27 @@ class _MoedasPageState extends State<MoedasPage> {
     real = NumberFormat.currency(locale: lang['locale'], name: lang['name']);
   }
 
+  changeLanguage() {
+    final locale = lang['locale'] == 'pt_BR' ? 'en_US' : 'pt_BR';
+    final name = lang['locale'] == 'pt_BR' ? '\$' : 'R\$';
+
+    return PopupMenuButton(
+        tooltip: 'Mudar moeda',
+        icon: const Icon(Icons.language),
+        itemBuilder: (context) => [
+              PopupMenuItem(
+                child: ListTile(
+                  title: Text('Usar $locale'),
+                  leading: const Icon(Icons.swap_vert),
+                  onTap: () {
+                    context.read<AppSettings>().setLocale(locale, name);
+                    Navigator.pop(context);
+                  },
+                ),
+              )
+            ]);
+  }
+
   limparSelecionadas() {
     setState(() {
       selecionadas = [];
@@ -35,7 +56,10 @@ class _MoedasPageState extends State<MoedasPage> {
 
   appBarDinamica() {
     if (selecionadas.isEmpty) {
-      return AppBar(title: const Center(child: Text('Bit Bank')));
+      return AppBar(
+        title: const Center(child: Text('Bit Bank')),
+        actions: [changeLanguage()],
+      );
     } else {
       return AppBar(
         title: Center(child: Text('${selecionadas.length} selecionadas')),
@@ -57,6 +81,7 @@ class _MoedasPageState extends State<MoedasPage> {
   Widget build(BuildContext context) {
     // favoritas = Provider.of<FavoritasRepository>(context);
     favoritas = context.watch<FavoritasRepository>();
+    readNumberFormat();
 
     return Scaffold(
       appBar: appBarDinamica(),
