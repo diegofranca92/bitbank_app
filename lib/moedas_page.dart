@@ -1,3 +1,4 @@
+import 'package:bitbank_app/configs/app_settings.dart';
 import 'package:bitbank_app/mostrar_detalhes.dart';
 import 'package:bitbank_app/repositories/favoritas_repository.dart';
 import 'package:bitbank_app/repositories/moeda_repository.dart';
@@ -16,9 +17,15 @@ class MoedasPage extends StatefulWidget {
 
 class _MoedasPageState extends State<MoedasPage> {
   final tabela = MoedaRepository.tabela;
-  NumberFormat real = NumberFormat.currency(locale: 'pt_BR', name: 'R\$');
+  late NumberFormat real;
+  late Map<String, String> lang;
   List<Moeda> selecionadas = [];
   late FavoritasRepository favoritas;
+
+  readNumberFormat() {
+    lang = context.watch<AppSettings>().locale;
+    real = NumberFormat.currency(locale: lang['locale'], name: lang['name']);
+  }
 
   limparSelecionadas() {
     setState(() {
