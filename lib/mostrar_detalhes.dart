@@ -3,7 +3,9 @@ import 'package:bitbank_app/widgets/block_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
+import 'configs/app_settings.dart';
 import 'models/moeda.dart';
 
 class MoedaDetalhesPage extends StatefulWidget {
@@ -24,6 +26,11 @@ class _MoedaDetalhesPageState extends State<MoedaDetalhesPage> {
   final _valor = TextEditingController();
   double qtd = 0;
   bool btnEnabled = false;
+
+  readNumberFormat() {
+    final lang = context.watch<AppSettings>().locale;
+    real = NumberFormat.currency(locale: lang['locale'], name: lang['name']);
+  }
 
   submitComprar() {
     if (_formKey.currentState!.validate()) {
@@ -47,6 +54,7 @@ class _MoedaDetalhesPageState extends State<MoedaDetalhesPage> {
 
   @override
   Widget build(BuildContext context) {
+    readNumberFormat();
     return Scaffold(
       appBar: AppBar(title: Text(widget.moeda.nome)),
       body: Padding(

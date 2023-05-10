@@ -103,8 +103,9 @@ class _MoedasPageState extends State<MoedasPage> {
                     style: const TextStyle(
                         fontSize: 17, fontWeight: FontWeight.w400),
                   ),
-                  if (favoritas.lista.contains(tabela[moeda]))
-                    Icon(
+                  if (favoritas.lista
+                      .any((fav) => fav.sigla == tabela[moeda].sigla))
+                    const Icon(
                       Icons.circle,
                       color: Colors.amber,
                       size: 8,

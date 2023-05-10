@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../configs/app_settings.dart';
 import '../models/moeda.dart';
 import '../mostrar_detalhes.dart';
 import '../repositories/favoritas_repository.dart';
@@ -32,8 +33,14 @@ class _MoedaCardState extends State<MoedaCard> {
     );
   }
 
+  readNumberFormat() {
+    final lang = context.watch<AppSettings>().locale;
+    real = NumberFormat.currency(locale: lang['locale'], name: lang['name']);
+  }
+
   @override
   Widget build(BuildContext context) {
+    readNumberFormat();
     return Card(
       margin: const EdgeInsets.only(top: 12),
       elevation: 2,
