@@ -1,12 +1,12 @@
 import 'package:bitbank_app/configs/app_settings.dart';
-import 'package:bitbank_app/mostrar_detalhes.dart';
+import 'package:bitbank_app/detalhes_moeda_page.dart';
 import 'package:bitbank_app/repositories/favoritas_repository.dart';
 import 'package:bitbank_app/repositories/moeda_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import 'models/moeda.dart';
+import '../models/moeda.dart';
 
 class MoedasPage extends StatefulWidget {
   const MoedasPage({super.key});

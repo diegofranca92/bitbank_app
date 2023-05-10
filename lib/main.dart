@@ -1,7 +1,8 @@
 import 'package:bitbank_app/configs/app_settings.dart';
 import 'package:bitbank_app/configs/hive.config.dart';
-import 'package:bitbank_app/home_page.dart';
+import 'package:bitbank_app/pages/home_page.dart';
 import 'package:bitbank_app/repositories/favoritas_repository.dart';
+import 'package:bitbank_app/repositories/conta_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,8 +11,9 @@ void main() async {
   await HiveConfig.start();
 
   runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => AppSettings()),
     ChangeNotifierProvider(create: (context) => FavoritasRepository()),
-    ChangeNotifierProvider(create: (context) => AppSettings())
+    ChangeNotifierProvider(create: (context) => ContaRepository())
   ], child: const MyApp()));
 }
 

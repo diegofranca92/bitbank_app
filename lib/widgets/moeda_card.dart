@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../configs/app_settings.dart';
 import '../models/moeda.dart';
-import '../mostrar_detalhes.dart';
+import '../detalhes_moeda_page.dart';
 import '../repositories/favoritas_repository.dart';
 
 class MoedaCard extends StatefulWidget {
