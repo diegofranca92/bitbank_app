@@ -1,5 +1,5 @@
 import 'package:bitbank_app/configs/app_settings.dart';
-import 'package:bitbank_app/detalhes_moeda_page.dart';
+import 'package:bitbank_app/pages/detalhes_moeda_page.dart';
 import 'package:bitbank_app/repositories/favoritas_repository.dart';
 import 'package:bitbank_app/repositories/moeda_repository.dart';
 import 'package:flutter/material.dart';

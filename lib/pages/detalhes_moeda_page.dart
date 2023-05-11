@@ -5,8 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import 'configs/app_settings.dart';
-import 'models/moeda.dart';
+import '../configs/app_settings.dart';
+import '../models/moeda.dart';
 
 class MoedaDetalhesPage extends StatefulWidget {
   Moeda moeda;
