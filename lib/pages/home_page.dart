@@ -3,6 +3,8 @@ import 'package:bitbank_app/pages/moedas_page.dart';
 import 'package:bitbank_app/pages/configuracoes_page.dart';
 import 'package:flutter/material.dart';
 
+import 'carteira_page.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -32,13 +34,21 @@ class _HomePageState extends State<HomePage> {
       body: PageView(
         onPageChanged: setPaginaAtual,
         controller: pc,
-        children: [MoedasPage(), FavoritasPage(), ConfiguracoesPage()],
+        children: [
+          MoedasPage(),
+          FavoritasPage(),
+          CarteiraPage(),
+          ConfiguracoesPage()
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: paginaAtual,
+        type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(label: 'Todas', icon: Icon(Icons.list)),
           BottomNavigationBarItem(label: 'Favoritas', icon: Icon(Icons.star)),
+          BottomNavigationBarItem(
+              label: 'Carteira', icon: Icon(Icons.account_balance_wallet)),
           BottomNavigationBarItem(label: 'Conta', icon: Icon(Icons.settings))
         ],
         onTap: (pagina) {
