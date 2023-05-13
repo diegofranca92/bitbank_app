@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:bitbank_app/repositories/conta_repository.dart';
 import 'package:bitbank_app/widgets/block_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -27,13 +28,17 @@ class _MoedaDetalhesPageState extends State<MoedaDetalhesPage> {
   double qtd = 0;
   bool btnEnabled = false;
 
+  late ContaRepository conta;
+
   readNumberFormat() {
     final lang = context.watch<AppSettings>().locale;
     real = NumberFormat.currency(locale: lang['locale'], name: lang['name']);
   }
 
-  submitComprar() {
+  submitComprar() async {
     if (_formKey.currentState!.validate()) {
+      await conta.comprar(widget.moeda, double.parse(_valor.text));
+
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: Colors.green[800],
@@ -55,6 +60,9 @@ class _MoedaDetalhesPageState extends State<MoedaDetalhesPage> {
   @override
   Widget build(BuildContext context) {
     readNumberFormat();
+
+    conta = Provider.of(context, listen: false);
+
     return Scaffold(
       appBar: AppBar(title: Text(widget.moeda.nome)),
       body: Padding(
@@ -122,6 +130,8 @@ class _MoedaDetalhesPageState extends State<MoedaDetalhesPage> {
                     return 'Informe o valor da compra';
                   } else if (double.parse(value) < 50) {
                     return 'Compra minima de R\$ 50,00';
+                  } else if (double.parse(value) > conta.saldo) {
+                    return 'Você não tem saldo suficiente';
                   }
                   return null;
                 },
