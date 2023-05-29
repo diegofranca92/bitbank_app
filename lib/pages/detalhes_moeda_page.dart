@@ -22,10 +22,10 @@ class MoedaDetalhesPage extends StatefulWidget {
 }
 
 class _MoedaDetalhesPageState extends State<MoedaDetalhesPage> {
-  NumberFormat real = NumberFormat.currency(locale: 'pt_BR', name: 'R\$');
+  late NumberFormat real;
   final _formKey = GlobalKey<FormState>();
   final _valor = TextEditingController();
-  double qtd = 0;
+  double quantidade = 0;
   bool btnEnabled = false;
 
   late ContaRepository conta;
@@ -40,6 +40,7 @@ class _MoedaDetalhesPageState extends State<MoedaDetalhesPage> {
       await conta.comprar(widget.moeda, double.parse(_valor.text));
 
       Navigator.pop(context);
+
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: Colors.green[800],
           content: const Row(
@@ -89,7 +90,7 @@ class _MoedaDetalhesPageState extends State<MoedaDetalhesPage> {
                   ),
                 ]),
           ),
-          (qtd > 0)
+          (quantidade > 0)
               ? SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: Container(
@@ -98,7 +99,7 @@ class _MoedaDetalhesPageState extends State<MoedaDetalhesPage> {
                     alignment: Alignment.center,
                     decoration:
                         BoxDecoration(color: Colors.teal.withOpacity(0.05)),
-                    child: Text('$qtd ${widget.moeda.sigla}',
+                    child: Text('$quantidade ${widget.moeda.sigla}',
                         style:
                             const TextStyle(color: Colors.teal, fontSize: 20)),
                   ))
@@ -120,7 +121,7 @@ class _MoedaDetalhesPageState extends State<MoedaDetalhesPage> {
                 onChanged: (value) {
                   setState(() {
                     btnEnabled = value.isNotEmpty;
-                    qtd = value.isEmpty
+                    quantidade = value.isEmpty
                         ? 0
                         : double.parse(value) / widget.moeda.preco;
                   });

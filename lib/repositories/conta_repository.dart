@@ -43,8 +43,11 @@ class ContaRepository extends ChangeNotifier {
     db = await DB.instance.database;
     await db.transaction((txn) async {
       // Verifica se a moeda ja foi comprada
-      final posicaoMoeda = await txn
-          .query('carteira', where: 'sigla = ?', whereArgs: [moeda.sigla]);
+      final posicaoMoeda = await txn.query(
+        'carteira',
+        where: 'sigla = ?',
+        whereArgs: [moeda.sigla],
+      );
 
       if (posicaoMoeda.isEmpty) {
         await txn.insert('carteira', {
@@ -56,11 +59,8 @@ class ContaRepository extends ChangeNotifier {
         final valorAtual =
             double.parse(posicaoMoeda.first['quantidade'].toString());
         await txn.update('carteira',
-            {'quantidade': (valorAtual + (valor / moeda.preco)).toString()},
-            where: 'sigla = ?',
-            whereArgs: [
-              [moeda.sigla]
-            ]);
+            {'quantidade': ((valor / moeda.preco) + valorAtual).toString()},
+            where: 'sigla = ?', whereArgs: [moeda.sigla]);
       }
 
       // Insere a compra no Historico
@@ -90,7 +90,9 @@ class ContaRepository extends ChangeNotifier {
       );
 
       _carteira.add(Posicao(
-          moeda: moeda, quantidade: double.parse(posicao['quantidade'])));
+        moeda: moeda,
+        quantidade: double.parse(posicao['quantidade']),
+      ));
     });
     notifyListeners();
   }

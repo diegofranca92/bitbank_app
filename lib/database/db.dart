@@ -40,7 +40,7 @@ class DB {
 
   String get _carteira => '''
     CREATE TABLE carteira(
-      sigla INTEGER PRIMARY KEY,
+      sigla TEXT PRIMARY KEY,
       moeda TEXT,
       quantidade TEXT
     );
