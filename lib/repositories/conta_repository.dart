@@ -5,13 +5,17 @@ import 'package:bitbank_app/repositories/moeda_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../models/historico.dart';
+
 class ContaRepository extends ChangeNotifier {
   late Database db;
   List<Posicao> _carteira = [];
+  List<Historico> _historico = [];
   double _saldo = 0;
 
   get saldo => _saldo;
   List<Posicao> get carteira => _carteira;
+  List<Historico> get historico => _historico;
 
   ContaRepository() {
     _initRepository();
@@ -20,6 +24,7 @@ class ContaRepository extends ChangeNotifier {
   _initRepository() async {
     await _getSaldo();
     await _getCarteira();
+    await _getHistorico();
   }
 
   _getSaldo() async {
@@ -92,6 +97,26 @@ class ContaRepository extends ChangeNotifier {
       _carteira.add(Posicao(
         moeda: moeda,
         quantidade: double.parse(posicao['quantidade']),
+      ));
+    });
+    notifyListeners();
+  }
+
+  _getHistorico() async {
+    _historico = [];
+    List operacoes = await db.query('historico');
+    operacoes.forEach((operacao) {
+      Moeda moeda = MoedaRepository.tabela.firstWhere(
+        (m) => m.sigla == operacao['sigla'],
+      );
+
+      _historico.add(Historico(
+        dataOperacao:
+            DateTime.fromMicrosecondsSinceEpoch(operacao['data_operacao']),
+        tipoOperacao: operacao['tipo_operacao'],
+        moeda: moeda,
+        valor: operacao['valor'],
+        quantidade: double.parse(operacao['quantidade']),
       ));
     });
     notifyListeners();

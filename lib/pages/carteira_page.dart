@@ -49,6 +49,7 @@ class _CarteiraPageState extends State<CarteiraPage> {
                 fontSize: 35, fontWeight: FontWeight.w500, letterSpacing: -1.5),
           ),
           loadGrafico(),
+          loadHistorico()
         ]),
       ),
     );
@@ -157,5 +158,25 @@ class _CarteiraPageState extends State<CarteiraPage> {
       graficoLabel = carteira[index].moeda.nome;
       graficoValor = carteira[index].moeda.preco * carteira[index].quantidade;
     }
+  }
+
+  loadHistorico() {
+    final historico = conta.historico;
+    final date = DateFormat('dd/MM/yyyy - hh:mm');
+    List<Widget> widgets = [];
+
+    for (var operacao in historico) {
+      widgets.add(ListTile(
+        title: Text(operacao.moeda.nome),
+        subtitle: Text(date.format(operacao.dataOperacao)),
+        trailing:
+            Text(real.format((operacao.moeda.preco * operacao.quantidade))),
+      ));
+      widgets.add(const Divider());
+    }
+
+    return Column(
+      children: widgets,
+    );
   }
 }
