@@ -1,4 +1,6 @@
+import 'package:bitbank_app/services/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/block_button.dart';
 
@@ -15,29 +17,55 @@ class _LoginPageState extends State<LoginPage> {
   final password = TextEditingController();
 
   bool isLoginPage = true;
+  bool loading = false;
   late String titulo;
   late String actionButton;
   late String toggleButton;
+  late IconData icon;
 
   @override
   void initState() {
     super.initState();
-    setFormState(true);
+    setFormAction(true);
   }
 
-  setFormState(bool acao) {
+  setFormAction(bool acao) {
     setState(() {
       isLoginPage = acao;
       if (isLoginPage) {
         titulo = "Bem Vindo";
         actionButton = "Login";
         toggleButton = "Ainda não tem conta ? Cadastre-se agora";
+        icon = Icons.login;
       } else {
         titulo = "Crie uma conta";
         actionButton = "Cadastrar";
         toggleButton = "Voltar ao login";
+        icon = Icons.person_add_outlined;
       }
     });
+  }
+
+  signIn() async {
+    setState(() => loading = true);
+    try {
+      await context.read<AuthService>().signIn(email.text, password.text);
+    } on AuthException catch (e) {
+      setState(() => loading = false);
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.message)));
+    }
+  }
+
+  signUp() async {
+    setState(() => loading = true);
+    try {
+      await context.read<AuthService>().signUp(email.text, password.text);
+    } on AuthException catch (e) {
+      setState(() => loading = false);
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.message)));
+    }
   }
 
   @override
@@ -97,11 +125,25 @@ class _LoginPageState extends State<LoginPage> {
                       },
                     ),
                   ),
-                  BlockButton(
-                      onPressed: () {}, icon: Icons.login, label: actionButton),
+                  Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: BlockButton(
+                        onPressed: () {
+                          if (formKey.currentState!.validate()) {
+                            if (isLoginPage) {
+                              signIn();
+                            } else {
+                              signUp();
+                            }
+                          }
+                        },
+                        loading: loading,
+                        icon: icon,
+                        label: actionButton),
+                  ),
                   TextButton(
                     child: Text(toggleButton),
-                    onPressed: setFormState(!isLoginPage),
+                    onPressed: () => setFormAction(!isLoginPage),
                   )
                 ],
               )),

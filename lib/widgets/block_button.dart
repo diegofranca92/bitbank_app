@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class BlockButton extends StatelessWidget {
   final IconData? icon;
   final String label;
+  final bool? loading;
   final Function()? onPressed;
   final btnStyle = ElevatedButton.styleFrom(
       textStyle: const TextStyle(fontSize: 20),
@@ -14,18 +15,48 @@ class BlockButton extends StatelessWidget {
     required this.icon,
     required this.label,
     this.onPressed,
+    this.loading,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      child: ElevatedButton.icon(
+      child: ElevatedButton(
           onPressed: onPressed,
-          icon: Icon(icon),
-          style: btnStyle,
-          label: Text(label)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: (loading == false)
+                ? [
+                    Icon(icon),
+                    Padding(
+                      padding: EdgeInsets.all(16),
+                      child: Text(
+                        label,
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    )
+                  ]
+                : [
+                    const Padding(
+                        padding: EdgeInsets.all(16),
+                        child: SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                        )),
+                  ],
+          )),
     );
+
+//  ElevatedButton.icon(
+//   onPressed: onPressed,
+//   icon: Icon(icon),
+//   style: btnStyle,
+//   label: Text(label))
+//
 
     // Modelo de Botao que pode ser com ou sem icone
     // Container(

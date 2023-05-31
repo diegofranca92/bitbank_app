@@ -17,7 +17,7 @@ void main() async {
   );
 
   runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (context) => Auth_Service()),
+    ChangeNotifierProvider(create: (context) => AuthService()),
     ChangeNotifierProvider(create: (context) => AppSettings()),
     ChangeNotifierProvider(create: (context) => FavoritasRepository()),
     ChangeNotifierProvider(create: (context) => ContaRepository())

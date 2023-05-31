@@ -15,18 +15,19 @@ class AuthCheck extends StatefulWidget {
 class _AuthCheckState extends State<AuthCheck> {
   @override
   Widget build(BuildContext context) {
-    Auth_Service auth = Provider.of(context);
+    AuthService auth = Provider.of(context);
 
-    if (auth.isLoading)
+    if (auth.isLoading) {
       return loading();
-    else if (auth.usuario == null)
-      return LoginPage();
-    else
-      return HomePage();
+    } else if (auth.usuario == null) {
+      return const LoginPage();
+    } else {
+      return const HomePage();
+    }
   }
 
   loading() {
-    return Scaffold(
+    return const Scaffold(
       body: Center(
         child: CircularProgressIndicator(),
       ),

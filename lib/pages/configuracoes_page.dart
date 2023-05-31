@@ -1,4 +1,5 @@
 import 'package:bitbank_app/repositories/conta_repository.dart';
+import 'package:bitbank_app/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -23,7 +24,11 @@ class _ConfiguracoesPageState extends State<ConfiguracoesPage> {
     final conta = context.watch<ContaRepository>();
 
     return Scaffold(
-      appBar: AppBar(title: Text('Configurações')),
+      appBar: AppBar(title: const Text('Configurações'), actions: [
+        IconButton(
+            onPressed: () => {context.read<AuthService>().signOut()},
+            icon: const Icon(Icons.logout))
+      ]),
       body: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(children: [
