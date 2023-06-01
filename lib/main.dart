@@ -2,6 +2,7 @@ import 'package:bitbank_app/configs/app_settings.dart';
 import 'package:bitbank_app/configs/hive.config.dart';
 import 'package:bitbank_app/repositories/favoritas_repository.dart';
 import 'package:bitbank_app/repositories/conta_repository.dart';
+import 'package:bitbank_app/repositories/moeda_repository.dart';
 import 'package:bitbank_app/services/auth_service.dart';
 import 'package:bitbank_app/widgets/auth_check.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -17,12 +18,16 @@ void main() async {
   );
 
   runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => MoedaRepository()),
     ChangeNotifierProvider(create: (context) => AuthService()),
     ChangeNotifierProvider(create: (context) => AppSettings()),
     ChangeNotifierProvider(
+        create: (context) => FavoritasRepository(
+            auth: context.read<AuthService>(),
+            moedas: context.read<MoedaRepository>())),
+    ChangeNotifierProvider(
         create: (context) =>
-            FavoritasRepository(auth: context.read<AuthService>())),
-    ChangeNotifierProvider(create: (context) => ContaRepository())
+            ContaRepository(moedas: context.read<MoedaRepository>()))
   ], child: const MyApp()));
 }
 
