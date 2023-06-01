@@ -26,7 +26,7 @@ class BlockButton extends StatelessWidget {
           onPressed: onPressed,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: (loading == false)
+            children: (loading == false || loading == null)
                 ? [
                     Icon(icon),
                     Padding(
